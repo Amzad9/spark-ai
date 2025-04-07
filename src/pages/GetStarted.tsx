@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -40,7 +40,7 @@ export default function GetStarted() {
       name: "",
       email: "",
       password: "",
-      agreeTerms: false,
+      agreeTerms: false, // This is acceptable because the validation happens on submit
     },
   });
 
@@ -57,8 +57,8 @@ export default function GetStarted() {
     }, 1500);
   }
 
-  // Animation effects
-  useState(() => {
+  // Animation effects - fixed to use useEffect instead of useState
+  useEffect(() => {
     anime({
       targets: '.form-animate-item',
       translateY: [20, 0],
@@ -76,7 +76,7 @@ export default function GetStarted() {
       easing: 'easeOutExpo',
       duration: 1500
     });
-  });
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
