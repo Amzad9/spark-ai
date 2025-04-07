@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu, X } from "lucide-react";
@@ -75,12 +76,12 @@ export function Header() {
     >
       <div className="container flex items-center justify-between">
         <div className="flex items-center">
-          <a href="#" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="logo-icon w-8 h-8 bg-gradient-to-br from-aiblue-400 to-aiblue-600 rounded-lg mr-2 flex items-center justify-center overflow-hidden">
               <div className="w-4 h-4 bg-white rounded-sm rotate-45 transform transition-transform hover:rotate-90 duration-300"></div>
             </div>
             <span className="logo-text font-heading text-xl font-bold text-foreground overflow-hidden">NeuraNest</span>
-          </a>
+          </Link>
         </div>
 
         {/* Desktop navigation */}
@@ -94,10 +95,14 @@ export function Header() {
           <a href="#testimonials" className="nav-item text-sm font-medium text-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
             Testimonials
           </a>
-          <Button variant="ghost" size="sm" className="nav-item">
-            Log In
-          </Button>
-          <Button className="nav-item">Get Started</Button>
+          <Link to="/login">
+            <Button variant="ghost" size="sm" className="nav-item">
+              Log In
+            </Button>
+          </Link>
+          <Link to="/get-started">
+            <Button className="nav-item">Get Started</Button>
+          </Link>
           <div className="nav-item">
             <ThemeToggle />
           </div>
@@ -143,12 +148,16 @@ export function Header() {
               Testimonials
             </a>
             <div className="pt-2 flex flex-col space-y-2">
-              <Button variant="outline" className="mobile-menu-item w-full">
-                Log In
-              </Button>
-              <Button className="mobile-menu-item w-full">
-                Get Started
-              </Button>
+              <Link to="/login">
+                <Button variant="outline" className="mobile-menu-item w-full">
+                  Log In
+                </Button>
+              </Link>
+              <Link to="/get-started">
+                <Button className="mobile-menu-item w-full">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

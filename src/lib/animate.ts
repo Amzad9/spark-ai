@@ -159,3 +159,14 @@ export const createScrollAnimations = () => {
   
   return observer;
 };
+
+export const animateFormElements = (selector: string) => {
+  return anime({
+    targets: selector,
+    translateY: [20, 0],
+    opacity: [0, 1],
+    delay: anime.stagger(100),
+    easing: 'easeOutExpo',
+    duration: 800
+  });
+};
