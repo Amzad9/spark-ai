@@ -92,7 +92,7 @@ export function HowItWorks() {
 
         <div className="relative">
           {/* Connection line with animation */}
-          <div className="connection-line hidden md:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-muted to-transparent origin-left"></div>
+          <div className="connection-line hidden md:block absolute top-6 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-muted to-transparent origin-left z-0"></div>
           
           <div ref={stepsRef} className="grid md:grid-cols-4 gap-8">
             {steps.map((step, i) => (
@@ -104,7 +104,7 @@ export function HowItWorks() {
                 <p className="text-muted-foreground">{step.description}</p>
                 
                 {i !== steps.length - 1 && (
-                  <CheckCircle2 className="hidden md:block absolute -right-4 top-24 text-muted h-6 w-6 z-10" />
+                  <CheckCircle2 className="hidden md:block absolute -right-4 top-3 text-gray-700 h-6 w-6 z-10 bg-gray-800 rounded-full" />
                 )}
               </div>
             ))}
