@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -69,7 +68,7 @@ export function ProductSneak() {
       className="section-padding bg-gradient-to-b from-gray-50 to-white dark:from-aidark-900 dark:to-aidark-800"
     >
       <div className="container">
-        <div className="product-header text-center max-w-3xl mx-auto mb-16 opacity-0">
+        <div className="product-header text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-xs font-medium mb-4">
             Our Product
           </div>
@@ -82,7 +81,7 @@ export function ProductSneak() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Product Visual */}
-          <div ref={productVisualRef} className="product-visual rounded-2xl overflow-hidden border border-border shadow-lg dark:shadow-blue-500/5 bg-white dark:bg-aidark-700 opacity-0">
+          <div className="product-visual rounded-2xl overflow-hidden border border-border shadow-lg dark:shadow-blue-500/5 bg-white dark:bg-aidark-700">
             <div className="p-1 bg-gray-100 dark:bg-aidark-800 border-b border-border flex items-center">
               <div className="flex space-x-1.5 ml-2">
                 <div className="ui-dot w-2.5 h-2.5 rounded-full bg-red-500"></div>
@@ -136,7 +135,7 @@ export function ProductSneak() {
           </div>
           
           {/* Product Features */}
-          <div ref={featuresRef} className="features-content flex flex-col justify-center opacity-0">
+          <div className="features-content flex flex-col justify-center">
             <h3 className="text-2xl font-bold font-heading mb-6">
               Your AI Assistant That Works While You Sleep
             </h3>
@@ -151,7 +150,7 @@ export function ProductSneak() {
                 "Generate content and marketing materials in seconds",
                 "Process data and create custom reports instantly"
               ].map((feature, i) => (
-                <li key={i} className="feature-item flex items-start gap-3 opacity-0">
+                <li key={i} className="feature-item flex items-start gap-3">
                   <div className="h-6 w-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center shrink-0">
                     <Check className="h-3.5 w-3.5" />
                   </div>

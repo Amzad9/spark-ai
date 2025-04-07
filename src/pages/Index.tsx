@@ -12,6 +12,7 @@ import { FAQ } from "@/components/FAQ";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import anime from "animejs";
+import { createScrollAnimations } from "@/lib/animate";
 
 const Index = () => {
   useEffect(() => {
@@ -40,6 +41,16 @@ const Index = () => {
       direction: 'alternate',
       loop: true
     });
+    
+    // Initialize scroll animations
+    const observer = createScrollAnimations();
+    
+    return () => {
+      // Cleanup intersection observer when component unmounts
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, []);
 
   return (
@@ -49,11 +60,32 @@ const Index = () => {
       
       <main>
         <Hero />
-        <ProblemSolution />
-        <ProductSneak />
-        <HowItWorks />
-        <Testimonials />
-        <ValueProposition />
+        
+        <section id="problem-solution-section" className="animate-on-scroll relative">
+          <div className="bg-circle-effect absolute z-[-1] bg-blue-500/10 dark:bg-blue-600/10 w-[800px] h-[800px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <ProblemSolution />
+        </section>
+        
+        <section id="product-sneak-section" className="animate-on-scroll relative">
+          <div className="bg-circle-effect absolute z-[-1] bg-purple-500/10 dark:bg-purple-600/10 w-[800px] h-[800px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <ProductSneak />
+        </section>
+        
+        <section id="how-it-works-section" className="animate-on-scroll relative">
+          <div className="bg-circle-effect absolute z-[-1] bg-green-500/10 dark:bg-green-600/10 w-[800px] h-[800px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <HowItWorks />
+        </section>
+        
+        <section id="testimonials-section" className="animate-on-scroll relative">
+          <div className="bg-circle-effect absolute z-[-1] bg-amber-500/10 dark:bg-amber-600/10 w-[800px] h-[800px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <Testimonials />
+        </section>
+        
+        <section id="value-proposition-section" className="animate-on-scroll relative">
+          <div className="bg-circle-effect absolute z-[-1] bg-primary/10 dark:bg-primary/5 w-[800px] h-[800px] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <ValueProposition />
+        </section>
+        
         <Pricing />
         <FAQ />
         <CTA />

@@ -1,4 +1,3 @@
-
 import anime from 'animejs';
 
 // Animation presets
@@ -105,4 +104,58 @@ export const morphBackground = (element: string) => {
     direction: 'alternate',
     loop: true
   });
+};
+
+export const circleZoomEffect = (element: string) => {
+  return anime({
+    targets: element,
+    scale: [0, 1],
+    opacity: [0.8, 0],
+    borderRadius: '50%',
+    easing: 'easeOutExpo',
+    duration: 2500,
+    complete: function() {
+      // Reset the element for next animation
+      anime.set(element, {
+        scale: 0,
+        opacity: 0.8
+      });
+    }
+  });
+};
+
+export const createScrollAnimations = () => {
+  const sections = document.querySelectorAll('.animate-on-scroll');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const section = entry.target;
+        
+        // Trigger circle zoom effect
+        if (section.querySelector('.bg-circle-effect')) {
+          circleZoomEffect(`#${section.id} .bg-circle-effect`);
+        }
+        
+        // Fade in elements with staggered delay
+        anime({
+          targets: `#${section.id} .scroll-animate-item`,
+          translateY: [30, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 800,
+          delay: anime.stagger(150)
+        });
+        
+        // Mark as animated to prevent re-animation
+        section.classList.add('has-animated');
+      }
+    });
+  }, { threshold: 0.15 });
+  
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+  
+  return observer;
 };
