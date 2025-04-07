@@ -1,45 +1,80 @@
 
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { ParticlesBackground } from "./ParticlesBackground";
+import { WavyText } from "./WavyText";
+import { fadeIn, scaleIn, slideInLeft, slideInRight, floatAnimation, staggerElements } from "@/lib/animate";
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const taglineRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subheadingRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const trustedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Initialize animations when component mounts
+    if (taglineRef.current) fadeIn('.hero-tagline', 300, 800);
+    if (headlineRef.current) fadeIn('.hero-headline', 600, 1000);
+    if (subheadingRef.current) fadeIn('.hero-subheading', 900, 800);
+    if (ctaRef.current) fadeIn('.hero-cta', 1200, 1000);
+    if (visualRef.current) {
+      scaleIn('.hero-visual', 1500, 1000);
+      floatAnimation('.hero-visual');
+    }
+    if (trustedRef.current) {
+      fadeIn('.trusted-section', 2000, 1000);
+      staggerElements('.trusted-logo', 100, 500);
+    }
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white to-blue-50 dark:from-aidark-900 dark:to-aidark-800 pt-32 pb-16 md:pt-40 md:pb-24">
-      {/* Background elements */}
+    <section ref={heroRef} className="relative overflow-hidden bg-gradient-to-b from-white to-blue-50 dark:from-aidark-900 dark:to-aidark-800 pt-32 pb-16 md:pt-40 md:pb-24">
+      {/* Particle Background */}
+      <ParticlesBackground />
+      
+      {/* Background elements with morphing gradients */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-0 w-72 h-72 bg-blue-400/10 dark:bg-blue-500/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-blue-400/10 dark:bg-blue-500/10 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl animate-pulse" style={{animationDelay: "1.5s"}}></div>
       </div>
       
       <div className="container relative z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium mb-8">
+          <div ref={taglineRef} className="hero-tagline inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium mb-8">
             <span className="animate-pulse mr-2 h-2 w-2 rounded-full bg-blue-500"></span>
             AI-Powered Tools for Everyone
           </div>
           
-          {/* Hero Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 tracking-tight">
-            <span className="text-gradient">Grow Smarter</span> with AI Automation
+          {/* Hero Headline with Wavy Text */}
+          <h1 ref={headlineRef} className="hero-headline text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 tracking-tight">
+            <span className="inline-block mb-2">
+              <WavyText text="Grow Smarter" className="text-gradient" />
+            </span> 
+            <span className="block">with AI Automation</span>
           </h1>
           
           {/* Hero Subheading */}
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
+          <p ref={subheadingRef} className="hero-subheading text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
             NeuraNest delivers simple AI tools to save small businesses time and money, without the tech headaches.
           </p>
           
           {/* Hero Call-to-Action */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Button size="lg" className="w-full sm:w-auto font-medium">
-              Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
+          <div ref={ctaRef} className="hero-cta flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <Button size="lg" className="w-full sm:w-auto font-medium group">
+              Start Free Trial 
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              <Play className="mr-2 h-4 w-4" /> See How It Works
+            <Button variant="outline" size="lg" className="w-full sm:w-auto group">
+              <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-200" /> See How It Works
             </Button>
           </div>
           
-          {/* Hero Visual */}
-          <div className="w-full max-w-3xl mx-auto relative rounded-2xl overflow-hidden shadow-xl dark:shadow-blue-500/5 border border-border">
+          {/* Hero Visual with floating animation */}
+          <div ref={visualRef} className="hero-visual w-full max-w-3xl mx-auto relative rounded-2xl overflow-hidden shadow-xl dark:shadow-blue-500/5 border border-border">
             <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-aidark-700 dark:to-aidark-800 flex items-center justify-center">
               <div className="w-full h-full bg-white/20 dark:bg-black/20 backdrop-blur-sm p-6 flex flex-col">
                 <div className="flex items-center mb-6">
@@ -79,11 +114,11 @@ export function Hero() {
           </div>
           
           {/* Trusted By */}
-          <div className="mt-12 w-full">
+          <div ref={trustedRef} className="trusted-section mt-12 w-full">
             <p className="text-sm text-muted-foreground mb-4">Trusted by innovative teams</p>
             <div className="flex flex-wrap justify-center gap-8 opacity-70">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-8 bg-foreground/10 rounded w-24"></div>
+                <div key={i} className="trusted-logo h-8 bg-foreground/10 rounded w-24"></div>
               ))}
             </div>
           </div>

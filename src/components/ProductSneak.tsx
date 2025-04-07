@@ -1,12 +1,75 @@
 
+import { useEffect, useRef } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { slideInLeft, slideInRight } from "@/lib/animate";
+import anime from "animejs";
 
 export function ProductSneak() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const productVisualRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate header
+          anime({
+            targets: '.product-header',
+            translateY: [30, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800
+          });
+          
+          // Animate product visual
+          slideInLeft('.product-visual', 500, 1000);
+          
+          // Animate dots in UI mockup
+          anime({
+            targets: '.ui-dot',
+            scale: [0, 1],
+            opacity: [0, 1],
+            easing: 'easeOutElastic(1, .6)',
+            duration: 800,
+            delay: anime.stagger(100)
+          });
+          
+          // Animate features section
+          slideInRight('.features-content', 500, 1000);
+          
+          // Animate feature items with staggered timing
+          anime({
+            targets: '.feature-item',
+            translateX: [20, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: anime.stagger(150, {start: 800})
+          });
+          
+          // Cleanup observer after animation triggers
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="features" className="section-padding bg-gradient-to-b from-gray-50 to-white dark:from-aidark-900 dark:to-aidark-800">
+    <section 
+      ref={sectionRef}
+      id="features" 
+      className="section-padding bg-gradient-to-b from-gray-50 to-white dark:from-aidark-900 dark:to-aidark-800"
+    >
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="product-header text-center max-w-3xl mx-auto mb-16 opacity-0">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-xs font-medium mb-4">
             Our Product
           </div>
@@ -19,12 +82,12 @@ export function ProductSneak() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Product Visual */}
-          <div className="rounded-2xl overflow-hidden border border-border shadow-lg dark:shadow-blue-500/5 bg-white dark:bg-aidark-700">
+          <div ref={productVisualRef} className="product-visual rounded-2xl overflow-hidden border border-border shadow-lg dark:shadow-blue-500/5 bg-white dark:bg-aidark-700 opacity-0">
             <div className="p-1 bg-gray-100 dark:bg-aidark-800 border-b border-border flex items-center">
               <div className="flex space-x-1.5 ml-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                <div className="ui-dot w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                <div className="ui-dot w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                <div className="ui-dot w-2.5 h-2.5 rounded-full bg-green-500"></div>
               </div>
               <div className="mx-auto pr-8 text-xs text-muted-foreground">NeuraFlow Dashboard</div>
             </div>
@@ -39,7 +102,7 @@ export function ProductSneak() {
                     <div className="h-10 bg-blue-50 dark:bg-blue-900/20 rounded-md"></div>
                   </div>
                 </div>
-                <div className="h-40 bg-gray-50 dark:bg-aidark-600/50 rounded-md mb-4 p-4 flex flex-col justify-between">
+                <div className="h-40 bg-gray-50 dark:bg-aidark-600/50 rounded-md mb-4 p-4 flex flex-col justify-between animate-pulse">
                   <div className="space-y-2">
                     <div className="h-4 bg-gray-200 dark:bg-aidark-500 rounded w-3/4"></div>
                     <div className="h-4 bg-gray-200 dark:bg-aidark-500 rounded w-full"></div>
@@ -73,7 +136,7 @@ export function ProductSneak() {
           </div>
           
           {/* Product Features */}
-          <div className="flex flex-col justify-center">
+          <div ref={featuresRef} className="features-content flex flex-col justify-center opacity-0">
             <h3 className="text-2xl font-bold font-heading mb-6">
               Your AI Assistant That Works While You Sleep
             </h3>
@@ -88,7 +151,7 @@ export function ProductSneak() {
                 "Generate content and marketing materials in seconds",
                 "Process data and create custom reports instantly"
               ].map((feature, i) => (
-                <li key={i} className="flex items-start gap-3">
+                <li key={i} className="feature-item flex items-start gap-3 opacity-0">
                   <div className="h-6 w-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center shrink-0">
                     <Check className="h-3.5 w-3.5" />
                   </div>
@@ -97,8 +160,8 @@ export function ProductSneak() {
               ))}
             </ul>
             
-            <Button className="w-full sm:w-auto">
-              Learn More <ArrowRight className="ml-2 h-4 w-4" />
+            <Button className="w-full sm:w-auto group">
+              Learn More <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Button>
           </div>
         </div>

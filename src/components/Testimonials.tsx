@@ -1,11 +1,63 @@
 
+import { useEffect, useRef } from "react";
 import { Star } from "lucide-react";
+import { staggerElements } from "@/lib/animate";
+import anime from "animejs";
 
 export function Testimonials() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate header
+          anime({
+            targets: '.testimonial-header',
+            translateY: [30, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800
+          });
+          
+          // Animate testimonial cards with staggered timing
+          anime({
+            targets: '.testimonial-card',
+            translateY: [60, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: anime.stagger(200)
+          });
+          
+          // Animate stars
+          anime({
+            targets: '.star-icon',
+            scale: [0, 1],
+            opacity: [0, 1],
+            easing: 'easeOutElastic(1, .6)',
+            duration: 1000,
+            delay: anime.stagger(100)
+          });
+          
+          // Cleanup observer after animation triggers
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="testimonials" className="section-padding bg-white dark:bg-aidark-800">
+    <section ref={sectionRef} id="testimonials" className="section-padding bg-white dark:bg-aidark-800 overflow-hidden">
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="testimonial-header text-center max-w-3xl mx-auto mb-16 opacity-0">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-medium mb-4">
             Testimonials
           </div>
@@ -15,7 +67,7 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div ref={testimonialsRef} className="grid md:grid-cols-3 gap-8">
           {[
             {
               name: "Lisa Chen",
@@ -39,10 +91,10 @@ export function Testimonials() {
               rating: 5
             }
           ].map((testimonial, i) => (
-            <div key={i} className="bg-gray-50 dark:bg-aidark-700 p-6 rounded-xl border border-border">
+            <div key={i} className="testimonial-card bg-gray-50 dark:bg-aidark-700 p-6 rounded-xl border border-border opacity-0">
               <div className="flex items-center gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  <Star key={i} className="star-icon h-4 w-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
               <blockquote className="mb-6">
@@ -61,11 +113,11 @@ export function Testimonials() {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
+        <div className="trusted-brands mt-16 text-center opacity-0">
           <p className="text-muted-foreground mb-4">Trusted by 200+ businesses worldwide</p>
           <div className="flex flex-wrap justify-center gap-8 opacity-70">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-8 bg-foreground/10 rounded w-24"></div>
+              <div key={i} className="trusted-brand h-8 bg-foreground/10 rounded w-24"></div>
             ))}
           </div>
         </div>
