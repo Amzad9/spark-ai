@@ -52,8 +52,7 @@ export function Hero() {
           {/* Hero Headline with Wavy Text */}
           <h1 ref={headlineRef} className="hero-headline text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 tracking-tight">
             <span className="inline-block mb-2">
-              <WavyText text="Grow Smarter" className="text-gradient" />
-            </span> 
+<WavyText text="Grow Smarter" className="text-blue-400" />            </span> 
             <span className="block">with AI Automation</span>
           </h1>
           
