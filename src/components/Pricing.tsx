@@ -111,7 +111,7 @@ export function Pricing() {
           ))}
         </div>
 
-        <div className="mt-16 text-center bg-muted rounded-xl p-8 max-w-3xl mx-auto">
+        <div className="mt-16 text-center bg-white/5 rounded-xl p-8 max-w-3xl mx-auto">
           <h3 className="text-xl font-bold mb-4">Need a custom plan?</h3>
           <p className="mb-6 text-muted-foreground">
             We offer custom solutions for larger teams with specific requirements.
